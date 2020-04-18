@@ -14,9 +14,9 @@
   - 用VS 打开项目，进入属性管理器，选择**debug**模式下的配置文件opencv3.props修改自己opencv的include lib路径
   - 切记默认**debug**模式，**release**模式需要再加个opencv配置即可
 - 接入自己图像处理算法
-  - 接入自己图像处理算法可以通过处理this->inputImage输出结果显示在qImageLabel控件上
+  - 接入自己图像处理算法可以通过处理this->inputImage输出结果显示在this->imageLabel控件上
   - 本地图片处理:void openPictureSlot()，在这个槽函数处理this->imputImage
-  - 视频文件和本地摄像头处理:void paintEvent(QPaintEvent *e),在这个槽函数处理每一帧this->ImageLabel
+  - 视频文件和本地摄像头处理:void paintEvent(QPaintEvent *e),在这个槽函数处理每一帧this->imageLabel
   - 整个界面整洁赶紧只有一个菜单栏功能模块和一个QLabel来显示图片
 
 ## 相关使用例子
