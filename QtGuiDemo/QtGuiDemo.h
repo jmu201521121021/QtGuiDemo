@@ -58,11 +58,11 @@ private:
 
 	QWidget *centralWidget;
 
-	cv::VideoCapture capture;
-	cv::Mat inputImage;
+	cv::VideoCapture capture_;
+	cv::Mat inputImage_;
 
 	// 视频开关
-	bool isOpenVedio = false;
+	bool isOpenVedio_ = false;
 	// 选择摸索 0. 打开图片文件 2.打开本地视频 3.打开本地摄像头
-	int selectMode;
+	int selectMode_;
 };

@@ -118,7 +118,7 @@ void QtGuiDemo::setCVMat2QtLabel(const cv::Mat &image, QLabel *qLabel)
 
 void QtGuiDemo::openPictureSlot()
 {
-	this->selectMode = 0;
+	this->selectMode_ = 0;
 	QString imageFilePath;
 	imageFilePath = QFileDialog::getOpenFileName(
 		this,
@@ -130,8 +130,8 @@ void QtGuiDemo::openPictureSlot()
 		qDebug()<< "The imageFilePath is not exit!!!\n";
 		return;
 	}
-	this->inputImage = cv::imread(QS(imageFilePath));
-	this->setCVMat2QtLabel(this->inputImage, this->imageLabel);
+	this->inputImage_ = cv::imread(QS(imageFilePath));
+	this->setCVMat2QtLabel(this->inputImage_, this->imageLabel);
 }
 
 
@@ -148,21 +148,23 @@ void QtGuiDemo::openVideoSlot()
 	if (QS(vedioFilePath).empty())
 	{
 		qDebug() << "The VedioFilePath is not exit!!!\n";
+		this->isOpenVedio_ = false;
 		return;
 	}
 	
-	if (this->capture.isOpened())
+	if (this->capture_.isOpened())
 	{
-		this->capture.release();
+		this->capture_.release();
 	}
-	if (!this->capture.open(QS(vedioFilePath)))
+	if (!this->capture_.open(QS(vedioFilePath)))
 	{
-			qDebug() << "open video false 0";
+		qDebug() << "open video false!!!";
+		this->isOpenVedio_ = false;
 	}
 	else
 	{
-		this->selectMode = 1;
-		this->isOpenVedio = true;
+		this->selectMode_ = 1;
+		this->isOpenVedio_ = true;
 		qDebug() << "open video file successful 0\n";
 	}
 	
@@ -173,25 +175,25 @@ void QtGuiDemo:: openCaptureSlot()
 {
 	if (openCaptureAction->text() == SQ("打开摄像头"))
 	{
-		this->selectMode = 2;
-		if (!this->capture.open(0))
+		this->selectMode_ = 2;
+		if (!this->capture_.open(0))
 		{
-			if (!this->capture.open(0)) {
+			if (!this->capture_.open(0)) {
 				// capture.open(0);
 			}
 			qDebug() << "open video false 0";
 
 		}
 		qDebug() << "open video successful 0\n";
-		this->isOpenVedio = true;
+		this->isOpenVedio_ = true;
 		this->openCaptureAction->setText(SQ("关闭摄像头"));
 
 	}
 	else
 	{
 		openCaptureAction->setText(SQ("打开摄像头"));
-		this->capture.release();
-		this->isOpenVedio = false;
+		this->capture_.release();
+		this->isOpenVedio_ = false;
 	}
 }
 
@@ -200,13 +202,21 @@ void QtGuiDemo:: openCaptureSlot()
 void QtGuiDemo::paintEvent(QPaintEvent *e)
 {
 
-	if (this->isOpenVedio && (this->selectMode>0))
+	if (this->isOpenVedio_ && (this->selectMode_>0))
 	{
-		this->capture >> this->inputImage;
-		this->setCVMat2QtLabel(inputImage, this->imageLabel);
+		bool isRead = this->capture_.read(this->inputImage_);
+		if (isRead)
+		{
+			this->setCVMat2QtLabel(inputImage_, this->imageLabel);
+		}
+		else 
+		{
+			this->isOpenVedio_ = false;
+			this->capture_.release();
+		}
 	}
 	
-	else if (!this->isOpenVedio && (this->selectMode>0))
+	else if (!this->isOpenVedio_ && (this->selectMode_>0))
 	{
 		this->imageLabel->clear();
 	}
