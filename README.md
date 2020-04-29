@@ -17,8 +17,9 @@
   - 接入自己图像处理算法可以通过处理this->inputImage输出结果显示在this->imageLabel控件上
   - 本地图片处理:void openPictureSlot()，在这个槽函数处理this->imputImage
   - 视频文件和本地摄像头处理:void paintEvent(QPaintEvent *e),在这个槽函数处理每一帧this->imageLabel
-  - 整个界面整洁赶紧只有一个菜单栏功能模块和一个QLabel来显示图片
+  - 整个界面整洁只有一个菜单栏功能模块和一个QLabel来显示图片
 
 ## 相关使用例子
 - [人脸检测demo](https://github.com/jmu201521121021/FaceDetector-Base-Yolov3-spp)
 - [人脸识别demo](https://github.com/jmu201521121021/faceRecognition)
+- [目标检测YOLOV4 demo](https://github.com/scutlrr/Yolov4-QtGUI)
